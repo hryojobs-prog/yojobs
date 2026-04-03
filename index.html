@@ -1,0 +1,1360 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth" data-theme="light">
+<head>
+  <!-- ============================================================
+       YO JOBS - Professional HR & Recruitment Website
+       Built with: HTML5, Tailwind CSS (CDN), Vanilla JS, Font Awesome
+       Author: Yo Jobs Team
+       ============================================================ -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Yo Jobs - Premier HR & Recruitment Agency. We connect top talent with leading companies. Staffing, executive search, HR consulting, and more." />
+  <meta name="keywords" content="HR, recruitment, staffing, talent acquisition, jobs, executive search, Pakistan" />
+  <meta name="author" content="Yo Jobs" />
+  <meta property="og:title" content="Yo Jobs - Where Talent Meets Opportunity" />
+  <meta property="og:description" content="Premier HR and recruitment agency connecting top talent with leading organizations." />
+  <meta property="og:type" content="website" />
+  <title>Yo Jobs | Where Talent Meets Opportunity</title>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <!-- Google Fonts: Playfair Display (display) + DM Sans (body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <script>
+    /* ============================================================
+       TAILWIND CONFIG - Custom tokens
+       ============================================================ */
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            display: ['Playfair Display', 'serif'],
+            sans: ['DM Sans', 'sans-serif'],
+          },
+          colors: {
+            primary: {
+              50:  '#eff6ff',
+              100: '#dbeafe',
+              200: '#bfdbfe',
+              300: '#93c5fd',
+              400: '#60a5fa',
+              500: '#3b82f6',
+              600: '#2563eb',
+              700: '#1d4ed8',
+              800: '#1e40af',
+              900: '#1e3a8a',
+              950: '#172554',
+            },
+            slate: {
+              850: '#1a2744',
+            }
+          },
+          animation: {
+            'fade-up':   'fadeUp 0.6s ease forwards',
+            'fade-in':   'fadeIn 0.5s ease forwards',
+            'slide-in':  'slideIn 0.5s ease forwards',
+            'float':     'float 3s ease-in-out infinite',
+            'pulse-slow':'pulse 3s ease-in-out infinite',
+          },
+          keyframes: {
+            fadeUp:  { '0%': { opacity: 0, transform: 'translateY(30px)' }, '100%': { opacity: 1, transform: 'translateY(0)' } },
+            fadeIn:  { '0%': { opacity: 0 }, '100%': { opacity: 1 } },
+            slideIn: { '0%': { opacity: 0, transform: 'translateX(-20px)' }, '100%': { opacity: 1, transform: 'translateX(0)' } },
+            float:   { '0%,100%': { transform: 'translateY(0)' }, '50%': { transform: 'translateY(-10px)' } },
+          },
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* ============================================================
+       GLOBAL BASE STYLES
+       ============================================================ */
+    * { box-sizing: border-box; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    /* Smooth nav underline hover effect */
+    .nav-link::after {
+      content: '';
+      display: block;
+      width: 0;
+      height: 2px;
+      background: #3b82f6;
+      transition: width 0.3s ease;
+    }
+    .nav-link:hover::after { width: 100%; }
+
+    /* Service card hover lift */
+    .service-card {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .service-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 40px rgba(37, 99, 235, 0.15);
+    }
+
+    /* Team card hover */
+    .team-card:hover .team-overlay {
+      opacity: 1;
+    }
+    .team-overlay {
+      transition: opacity 0.3s ease;
+    }
+
+    /* Stat counter animation */
+    .stat-number {
+      font-family: 'Playfair Display', serif;
+    }
+
+    /* Custom scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #f1f5f9; }
+    ::-webkit-scrollbar-thumb { background: #3b82f6; border-radius: 3px; }
+    .dark ::-webkit-scrollbar-track { background: #1e293b; }
+    .dark ::-webkit-scrollbar-thumb { background: #2563eb; }
+
+    /* Testimonial card */
+    .testimonial-card {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .testimonial-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 32px rgba(0,0,0,0.12);
+    }
+
+    /* Hero gradient background */
+    .hero-bg {
+      background: linear-gradient(135deg, #1e3a8a 0%, #1d4ed8 40%, #2563eb 70%, #3b82f6 100%);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-bg::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -20%;
+      width: 600px;
+      height: 600px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.04);
+    }
+    .hero-bg::after {
+      content: '';
+      position: absolute;
+      bottom: -30%;
+      left: -10%;
+      width: 400px;
+      height: 400px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.03);
+    }
+
+    /* Section observe animation - initial state */
+    .animate-on-scroll {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+    .animate-on-scroll.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Dark mode toggle button */
+    .theme-btn {
+      transition: transform 0.3s ease, background 0.3s ease;
+    }
+    .theme-btn:hover { transform: rotate(15deg) scale(1.1); }
+
+    /* Gradient text */
+    .gradient-text {
+      background: linear-gradient(135deg, #3b82f6, #60a5fa);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* Mobile menu slide */
+    #mobile-menu {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease;
+    }
+    #mobile-menu.open { max-height: 500px; }
+
+    /* Input focus ring */
+    .form-input:focus {
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(59,130,246,0.25);
+    }
+
+    /* Divider dot pattern */
+    .section-divider {
+      height: 1px;
+      background: repeating-linear-gradient(90deg, #e2e8f0 0px, #e2e8f0 6px, transparent 6px, transparent 12px);
+    }
+    .dark .section-divider {
+      background: repeating-linear-gradient(90deg, #334155 0px, #334155 6px, transparent 6px, transparent 12px);
+    }
+
+    /* Stats bar */
+    .stats-bar {
+      background: linear-gradient(135deg, #1e40af, #2563eb);
+    }
+
+    /* Logo text */
+    .logo-text {
+      font-family: 'Playfair Display', serif;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+    }
+
+    /* Floating avatar badge */
+    .avatar-badge {
+      animation: float 3s ease-in-out infinite;
+    }
+
+    /* Process step connector */
+    .step-connector {
+      position: absolute;
+      top: 24px;
+      left: 50%;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, #3b82f6, #93c5fd);
+      z-index: 0;
+    }
+  </style>
+</head>
+
+<!-- ============================================================
+     BODY - Theme transition handled via JS
+     ============================================================ -->
+<body class="bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100">
+
+  <!-- ============================================================
+       NAVBAR
+       ============================================================ -->
+  <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-100 dark:border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+
+        <!-- Logo -->
+        <a href="#home" class="flex items-center gap-2 group">
+          <div class="w-9 h-9 rounded-lg bg-primary-600 flex items-center justify-center shadow-md group-hover:bg-primary-700 transition-colors">
+            <i class="fa-solid fa-briefcase text-white text-sm"></i>
+          </div>
+          <span class="logo-text text-xl text-slate-900 dark:text-white">
+            Yo <span class="text-primary-600">Jobs</span>
+          </span>
+        </a>
+
+        <!-- Desktop Nav Links -->
+        <div class="hidden md:flex items-center gap-7">
+          <a href="#home"         class="nav-link text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Home</a>
+          <a href="#about"        class="nav-link text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">About</a>
+          <a href="#services"     class="nav-link text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Services</a>
+          <a href="#team"         class="nav-link text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Team</a>
+          <a href="#testimonials" class="nav-link text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Clients</a>
+          <a href="#contact"      class="nav-link text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Contact</a>
+        </div>
+
+        <!-- Right controls: Theme Toggle + CTA -->
+        <div class="hidden md:flex items-center gap-3">
+          <!-- Dark Mode Toggle -->
+          <button id="theme-toggle" aria-label="Toggle dark mode"
+            class="theme-btn w-9 h-9 rounded-lg border border-slate-200 dark:border-slate-700 flex items-center justify-center text-slate-500 dark:text-slate-400 hover:border-primary-300 dark:hover:border-primary-600 bg-slate-50 dark:bg-slate-800">
+            <i id="theme-icon" class="fa-solid fa-sun text-sm"></i>
+          </button>
+          <!-- CTA -->
+          <a href="#contact" class="px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white text-sm font-semibold rounded-lg transition-colors shadow-sm">
+            Hire Talent
+          </a>
+        </div>
+
+        <!-- Mobile: Theme + Hamburger -->
+        <div class="md:hidden flex items-center gap-2">
+          <button id="theme-toggle-mobile" aria-label="Toggle dark mode"
+            class="theme-btn w-9 h-9 rounded-lg border border-slate-200 dark:border-slate-700 flex items-center justify-center text-slate-500 dark:text-slate-400 bg-slate-50 dark:bg-slate-800">
+            <i id="theme-icon-mobile" class="fa-solid fa-sun text-sm"></i>
+          </button>
+          <button id="hamburger" aria-label="Open menu"
+            class="w-9 h-9 rounded-lg border border-slate-200 dark:border-slate-700 flex items-center justify-center text-slate-600 dark:text-slate-400 bg-slate-50 dark:bg-slate-800">
+            <i class="fa-solid fa-bars text-sm"></i>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="md:hidden bg-white dark:bg-slate-900 border-t border-slate-100 dark:border-slate-800">
+      <div class="px-4 py-4 flex flex-col gap-3">
+        <a href="#home"         class="py-2 text-sm font-medium text-slate-700 dark:text-slate-200 hover:text-primary-600 transition-colors" onclick="closeMobileMenu()">Home</a>
+        <a href="#about"        class="py-2 text-sm font-medium text-slate-700 dark:text-slate-200 hover:text-primary-600 transition-colors" onclick="closeMobileMenu()">About</a>
+        <a href="#services"     class="py-2 text-sm font-medium text-slate-700 dark:text-slate-200 hover:text-primary-600 transition-colors" onclick="closeMobileMenu()">Services</a>
+        <a href="#team"         class="py-2 text-sm font-medium text-slate-700 dark:text-slate-200 hover:text-primary-600 transition-colors" onclick="closeMobileMenu()">Team</a>
+        <a href="#testimonials" class="py-2 text-sm font-medium text-slate-700 dark:text-slate-200 hover:text-primary-600 transition-colors" onclick="closeMobileMenu()">Clients</a>
+        <a href="#contact"      class="py-2 text-sm font-medium text-slate-700 dark:text-slate-200 hover:text-primary-600 transition-colors" onclick="closeMobileMenu()">Contact</a>
+        <a href="#contact" class="mt-2 px-4 py-2 bg-primary-600 text-white text-sm font-semibold rounded-lg text-center" onclick="closeMobileMenu()">Hire Talent</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ============================================================
+       SECTION 1: HERO
+       ============================================================ -->
+  <section id="home" class="hero-bg pt-16 min-h-screen flex items-center">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 w-full">
+      <div class="grid lg:grid-cols-2 gap-16 items-center">
+
+        <!-- Left: Copy -->
+        <div class="text-white animate-on-scroll">
+          <!-- Badge -->
+          <div class="inline-flex items-center gap-2 px-3 py-1.5 bg-white/10 rounded-full border border-white/20 text-xs font-medium text-blue-100 mb-6">
+            <span class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
+            Pakistan's Trusted Recruitment Partner
+          </div>
+
+          <h1 class="font-display text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-6">
+            Where Talent<br />
+            <span class="text-blue-200">Meets</span> Opportunity
+          </h1>
+
+          <p class="text-blue-100 text-lg leading-relaxed mb-8 max-w-lg">
+            We bridge the gap between exceptional candidates and world-class organizations.
+            Let us handle your HR challenges so you can focus on what matters — growing your business.
+          </p>
+
+          <div class="flex flex-wrap gap-4">
+            <a href="#services" class="px-6 py-3 bg-white text-primary-700 font-semibold rounded-xl hover:bg-blue-50 transition-colors shadow-lg text-sm">
+              Explore Services
+            </a>
+            <a href="#contact" class="px-6 py-3 bg-transparent text-white font-semibold rounded-xl border-2 border-white/40 hover:border-white hover:bg-white/10 transition-all text-sm">
+              Get In Touch
+              <i class="fa-solid fa-arrow-right ml-2"></i>
+            </a>
+          </div>
+
+          <!-- Quick trust signals -->
+          <div class="flex flex-wrap gap-6 mt-10 pt-8 border-t border-white/20">
+            <div>
+              <div class="text-2xl font-display font-bold text-white">500+</div>
+              <div class="text-blue-200 text-xs mt-0.5">Placements Made</div>
+            </div>
+            <div class="w-px bg-white/20"></div>
+            <div>
+              <div class="text-2xl font-display font-bold text-white">120+</div>
+              <div class="text-blue-200 text-xs mt-0.5">Partner Companies</div>
+            </div>
+            <div class="w-px bg-white/20"></div>
+            <div>
+              <div class="text-2xl font-display font-bold text-white">8+</div>
+              <div class="text-blue-200 text-xs mt-0.5">Years Experience</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Visual Card Stack -->
+        <div class="hidden lg:flex justify-center items-center relative animate-on-scroll" style="animation-delay:0.2s">
+          <!-- Main card -->
+          <div class="relative z-10 bg-white dark:bg-slate-800 rounded-2xl shadow-2xl p-6 w-80">
+            <div class="flex items-center justify-between mb-4">
+              <span class="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide">Latest Opening</span>
+              <span class="px-2 py-0.5 bg-green-100 text-green-700 text-xs font-medium rounded-full">Active</span>
+            </div>
+            <h3 class="font-display text-slate-900 dark:text-white text-lg font-bold mb-1">Senior Software Engineer</h3>
+            <p class="text-slate-500 dark:text-slate-400 text-sm mb-4">TechCorp Pakistan &bull; Islamabad</p>
+            <div class="flex flex-wrap gap-2 mb-5">
+              <span class="px-2 py-1 bg-primary-50 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 text-xs rounded-lg font-medium">Full-time</span>
+              <span class="px-2 py-1 bg-primary-50 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 text-xs rounded-lg font-medium">PKR 300k+</span>
+              <span class="px-2 py-1 bg-primary-50 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 text-xs rounded-lg font-medium">Remote OK</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <div class="flex -space-x-2">
+                <div class="w-7 h-7 rounded-full bg-blue-400 border-2 border-white dark:border-slate-800 flex items-center justify-center text-white text-xs font-bold">A</div>
+                <div class="w-7 h-7 rounded-full bg-indigo-400 border-2 border-white dark:border-slate-800 flex items-center justify-center text-white text-xs font-bold">B</div>
+                <div class="w-7 h-7 rounded-full bg-violet-400 border-2 border-white dark:border-slate-800 flex items-center justify-center text-white text-xs font-bold">C</div>
+                <div class="w-7 h-7 rounded-full bg-slate-200 dark:bg-slate-700 border-2 border-white dark:border-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-300 text-xs font-bold">+5</div>
+              </div>
+              <span class="text-xs text-slate-500 dark:text-slate-400">8 applicants</span>
+            </div>
+          </div>
+
+          <!-- Floating badge: Match rate -->
+          <div class="avatar-badge absolute -top-4 -right-4 bg-primary-600 text-white px-3 py-2 rounded-xl shadow-lg text-xs font-bold z-20">
+            <i class="fa-solid fa-bolt mr-1"></i> 96% Match Rate
+          </div>
+
+          <!-- Background card (decorative) -->
+          <div class="absolute top-6 left-0 w-72 h-40 bg-primary-100 dark:bg-primary-900/30 rounded-2xl -rotate-6 -z-10"></div>
+          <div class="absolute bottom-6 right-0 w-72 h-40 bg-blue-50 dark:bg-slate-800/50 rounded-2xl rotate-3 -z-10"></div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       STATS BAR
+       ============================================================ -->
+  <section class="stats-bar py-10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center text-white">
+        <div class="animate-on-scroll">
+          <div class="stat-number text-4xl font-bold mb-1" data-target="500">0</div>
+          <div class="text-blue-200 text-sm">Successful Placements</div>
+        </div>
+        <div class="animate-on-scroll" style="transition-delay:0.1s">
+          <div class="stat-number text-4xl font-bold mb-1" data-target="120">0</div>
+          <div class="text-blue-200 text-sm">Partner Companies</div>
+        </div>
+        <div class="animate-on-scroll" style="transition-delay:0.2s">
+          <div class="stat-number text-4xl font-bold mb-1" data-target="98">0</div>
+          <div class="text-blue-200 text-sm">Client Satisfaction %</div>
+        </div>
+        <div class="animate-on-scroll" style="transition-delay:0.3s">
+          <div class="stat-number text-4xl font-bold mb-1" data-target="8">0</div>
+          <div class="text-blue-200 text-sm">Years in Business</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SECTION 2: ABOUT US
+       ============================================================ -->
+  <section id="about" class="py-24 bg-slate-50 dark:bg-slate-800/30">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid lg:grid-cols-2 gap-16 items-center">
+
+        <!-- Left: Visual -->
+        <div class="animate-on-scroll">
+          <div class="relative">
+            <!-- Main image placeholder -->
+            <div class="w-full h-80 bg-gradient-to-br from-primary-100 to-primary-200 dark:from-primary-900/40 dark:to-primary-800/40 rounded-2xl flex items-center justify-center overflow-hidden">
+              <div class="text-center">
+                <i class="fa-solid fa-people-group text-6xl text-primary-400 mb-3"></i>
+                <p class="text-primary-600 dark:text-primary-300 font-medium text-sm">Our Passionate Team</p>
+              </div>
+            </div>
+            <!-- Floating experience badge -->
+            <div class="absolute -bottom-5 -right-5 bg-white dark:bg-slate-800 rounded-2xl shadow-xl p-4 flex items-center gap-3 border border-slate-100 dark:border-slate-700">
+              <div class="w-12 h-12 rounded-xl bg-primary-600 flex items-center justify-center text-white">
+                <i class="fa-solid fa-trophy text-xl"></i>
+              </div>
+              <div>
+                <div class="font-display text-2xl font-bold text-slate-900 dark:text-white">8+</div>
+                <div class="text-xs text-slate-500 dark:text-slate-400">Years of Excellence</div>
+              </div>
+            </div>
+            <!-- Floating certified badge -->
+            <div class="absolute -top-5 -left-5 bg-primary-600 text-white rounded-2xl shadow-xl p-3 flex items-center gap-2">
+              <i class="fa-solid fa-shield-check"></i>
+              <span class="text-xs font-semibold">Certified HR Partner</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Text -->
+        <div class="animate-on-scroll" style="transition-delay:0.15s">
+          <div class="inline-flex items-center gap-2 px-3 py-1.5 bg-primary-50 dark:bg-primary-900/30 rounded-full text-xs font-semibold text-primary-700 dark:text-primary-300 mb-4 uppercase tracking-wide">
+            <i class="fa-solid fa-circle-info"></i> About Yo Jobs
+          </div>
+          <h2 class="font-display text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white mb-5 leading-tight">
+            Redefining How Companies<br /><span class="gradient-text">Find Great People</span>
+          </h2>
+          <p class="text-slate-600 dark:text-slate-300 leading-relaxed mb-5">
+            Founded in 2016, Yo Jobs has grown from a small placement firm to one of Pakistan's most trusted HR and recruitment agencies. We blend deep industry knowledge with a human-first approach to find the right fit — not just the right resume.
+          </p>
+          <p class="text-slate-600 dark:text-slate-300 leading-relaxed mb-8">
+            Whether you're a startup scaling fast or an enterprise optimizing your workforce, our team of certified HR professionals is committed to delivering results that matter.
+          </p>
+
+          <!-- Feature list -->
+          <ul class="space-y-3 mb-8">
+            <li class="flex items-center gap-3 text-slate-700 dark:text-slate-200 text-sm">
+              <span class="w-6 h-6 rounded-full bg-primary-100 dark:bg-primary-900/50 flex items-center justify-center text-primary-600 dark:text-primary-400 flex-shrink-0">
+                <i class="fa-solid fa-check text-xs"></i>
+              </span>
+              Industry-certified HR consultants with domain expertise
+            </li>
+            <li class="flex items-center gap-3 text-slate-700 dark:text-slate-200 text-sm">
+              <span class="w-6 h-6 rounded-full bg-primary-100 dark:bg-primary-900/50 flex items-center justify-center text-primary-600 dark:text-primary-400 flex-shrink-0">
+                <i class="fa-solid fa-check text-xs"></i>
+              </span>
+              Tailored recruitment strategies for every client
+            </li>
+            <li class="flex items-center gap-3 text-slate-700 dark:text-slate-200 text-sm">
+              <span class="w-6 h-6 rounded-full bg-primary-100 dark:bg-primary-900/50 flex items-center justify-center text-primary-600 dark:text-primary-400 flex-shrink-0">
+                <i class="fa-solid fa-check text-xs"></i>
+              </span>
+              Transparent process with real-time candidate tracking
+            </li>
+            <li class="flex items-center gap-3 text-slate-700 dark:text-slate-200 text-sm">
+              <span class="w-6 h-6 rounded-full bg-primary-100 dark:bg-primary-900/50 flex items-center justify-center text-primary-600 dark:text-primary-400 flex-shrink-0">
+                <i class="fa-solid fa-check text-xs"></i>
+              </span>
+              Post-placement support and 90-day replacement guarantee
+            </li>
+          </ul>
+
+          <a href="#services" class="inline-flex items-center gap-2 px-6 py-3 bg-primary-600 hover:bg-primary-700 text-white font-semibold rounded-xl transition-colors text-sm shadow-md">
+            Our Services <i class="fa-solid fa-arrow-right"></i>
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SECTION 3: SERVICES
+       ============================================================ -->
+  <section id="services" class="py-24 bg-white dark:bg-slate-900">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+      <!-- Section Header -->
+      <div class="text-center max-w-2xl mx-auto mb-16 animate-on-scroll">
+        <div class="inline-flex items-center gap-2 px-3 py-1.5 bg-primary-50 dark:bg-primary-900/30 rounded-full text-xs font-semibold text-primary-700 dark:text-primary-300 mb-4 uppercase tracking-wide">
+          <i class="fa-solid fa-gear"></i> What We Do
+        </div>
+        <h2 class="font-display text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white mb-4">
+          Comprehensive HR <span class="gradient-text">Solutions</span>
+        </h2>
+        <p class="text-slate-500 dark:text-slate-400 leading-relaxed">
+          From finding your next star hire to full HR function management — we've got every angle covered.
+        </p>
+      </div>
+
+      <!-- Service Cards Grid -->
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+        <!-- Card 1: Talent Acquisition -->
+        <div class="service-card animate-on-scroll bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-100 dark:border-slate-700 shadow-sm group" style="transition-delay:0.05s">
+          <div class="w-12 h-12 rounded-xl bg-primary-50 dark:bg-primary-900/40 flex items-center justify-center text-primary-600 dark:text-primary-400 mb-5 group-hover:bg-primary-600 group-hover:text-white transition-colors">
+            <i class="fa-solid fa-magnifying-glass text-xl"></i>
+          </div>
+          <h3 class="font-display text-lg font-bold text-slate-900 dark:text-white mb-2">Talent Acquisition</h3>
+          <p class="text-slate-500 dark:text-slate-400 text-sm leading-relaxed mb-4">
+            End-to-end recruitment from sourcing to onboarding. We identify, screen, and present only the best candidates for your roles.
+          </p>
+          <div class="flex flex-wrap gap-2">
+            <span class="text-xs px-2 py-1 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 rounded-lg">Job Analysis</span>
+            <span class="text-xs px-2 py-1 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 rounded-lg">Screening</span>
+            <span class="text-xs px-2 py-1 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 rounded-lg">Onboarding</span>
+          </div>
+        </div>
+
+        <!-- Card 2: Executive Search -->
+        <div class="service-card animate-on-scroll bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-100 dark:border-slate-700 shadow-sm group" style="transition-delay:0.1s">
+          <div class="w-12 h-12 rounded-xl bg-primary-50 dark:bg-primary-900/40 flex items-center justify-center text-primary-600 dark:text-primary-400 mb-5 group-hover:bg-primary-600 group-hover:text-white transition-colors">
+            <i class="fa-solid fa-user-tie text-xl"></i>
+          </div>
+          <h3 class="font-display text-lg font-bold text-slate-900 dark:text-white mb-2">Executive Search</h3>
+          <p class="text-slate-500 dark:text-slate-400 text-sm leading-relaxed mb-4">
+            C-suite and leadership placement through our confidential headhunting network. Find leaders who drive real change.
+          </p>
+          <div class="flex flex-wrap gap-2">
+            <span class="text-xs px-2 py-1 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 rounded-lg">C-Suite</span>
+            <span class="text-xs px-2 py-1 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 rounded-lg">Headhunting</span>
+            <span class="text-xs px-2 py-1 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 rounded-lg">Confidential</span>
+          </div>
+        </div>
+
+        <!-- Card 3: HR Consulting -->
+        <div class="service-card animate-on-scroll bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-100 dark:border-slate-700 shadow-sm group" style="transition-delay:0.15s">
+          <div class="w-12 h-12 rounded-xl bg-primary-50 dark:bg-primary-900/40 flex items-center justify-center text-primary-600 dark:text-primary-400 mb-5 group-hover:bg-primary-600 group-hover:text-white transition-colors">
+            <i class="fa-solid fa-chart-line text-xl"></i>
+          </div>
+          <h3 class="font-display text-lg font-bold text-slate-900 dark:text-white mb-2">HR Consulting</h3>
+          <p class="text-slate-500 dark:text-slate-400 text-sm leading-relaxed mb-4">
+            Strategic HR advisory covering policy frameworks, compliance, org design, and workforce planning for sustainable growth.
+          </p>
+          <div class="flex flex-wrap gap-2">
+            <span class="text-xs px-2 py-1 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 rounded-lg">Policy</span>
+            <span class="text-xs px-2 py-1 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 rounded-lg">Compliance</span>
+            <span class="text-xs px-2 py-1 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 rounded-lg">Org Design</span>
+          </div>
+        </div>
+
+        <!-- Card 4: Temporary Staffing -->
+        <div class="service-card animate-on-scroll bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-100 dark:border-slate-700 shadow-sm group" style="transition-delay:0.2s">
+          <div class="w-12 h-12 rounded-xl bg-primary-50 dark:bg-primary-900/40 flex items-center justify-center text-primary-600 dark:text-primary-400 mb-5 group-hover:bg-primary-600 group-hover:text-white transition-colors">
+            <i class="fa-solid fa-clock text-xl"></i>
+          </div>
+          <h3 class="font-display text-lg font-bold text-slate-900 dark:text-white mb-2">Temporary Staffing</h3>
+          <p class="text-slate-500 dark:text-slate-400 text-sm leading-relaxed mb-4">
+            Flexible workforce solutions for project-based, seasonal, or interim needs. Scale up or down without the overhead.
+          </p>
+          <div class="flex flex-wrap gap-2">
+            <span class="text-xs px-2 py-1 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 rounded-lg">Contract</span>
+            <span class="text-xs px-2 py-1 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 rounded-lg">Seasonal</span>
+            <span class="text-xs px-2 py-1 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 rounded-lg">Interim</span>
+          </div>
+        </div>
+
+        <!-- Card 5: Training & Development -->
+        <div class="service-card animate-on-scroll bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-100 dark:border-slate-700 shadow-sm group" style="transition-delay:0.25s">
+          <div class="w-12 h-12 rounded-xl bg-primary-50 dark:bg-primary-900/40 flex items-center justify-center text-primary-600 dark:text-primary-400 mb-5 group-hover:bg-primary-600 group-hover:text-white transition-colors">
+            <i class="fa-solid fa-graduation-cap text-xl"></i>
+          </div>
+          <h3 class="font-display text-lg font-bold text-slate-900 dark:text-white mb-2">Training &amp; Development</h3>
+          <p class="text-slate-500 dark:text-slate-400 text-sm leading-relaxed mb-4">
+            Corporate training programs, leadership workshops, and skills development courses tailored to your industry needs.
+          </p>
+          <div class="flex flex-wrap gap-2">
+            <span class="text-xs px-2 py-1 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 rounded-lg">Workshops</span>
+            <span class="text-xs px-2 py-1 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 rounded-lg">Leadership</span>
+            <span class="text-xs px-2 py-1 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 rounded-lg">Upskilling</span>
+          </div>
+        </div>
+
+        <!-- Card 6: Payroll & Compliance (Highlighted) -->
+        <div class="service-card animate-on-scroll bg-gradient-to-br from-primary-600 to-primary-800 rounded-2xl p-6 shadow-lg group" style="transition-delay:0.3s">
+          <div class="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center text-white mb-5">
+            <i class="fa-solid fa-file-invoice-dollar text-xl"></i>
+          </div>
+          <h3 class="font-display text-lg font-bold text-white mb-2">Payroll &amp; Compliance</h3>
+          <p class="text-blue-100 text-sm leading-relaxed mb-4">
+            Full payroll processing, EOBI registration, tax deductions, and labor law compliance — completely managed for you.
+          </p>
+          <div class="flex flex-wrap gap-2">
+            <span class="text-xs px-2 py-1 bg-white/20 text-white rounded-lg">Payroll</span>
+            <span class="text-xs px-2 py-1 bg-white/20 text-white rounded-lg">EOBI</span>
+            <span class="text-xs px-2 py-1 bg-white/20 text-white rounded-lg">Tax</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       HOW WE WORK (Process) - Bonus Section
+       ============================================================ -->
+  <section class="py-20 bg-slate-50 dark:bg-slate-800/30">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-14 animate-on-scroll">
+        <div class="inline-flex items-center gap-2 px-3 py-1.5 bg-primary-50 dark:bg-primary-900/30 rounded-full text-xs font-semibold text-primary-700 dark:text-primary-300 mb-4 uppercase tracking-wide">
+          <i class="fa-solid fa-route"></i> Our Process
+        </div>
+        <h2 class="font-display text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white">
+          Simple. Transparent. <span class="gradient-text">Effective.</span>
+        </h2>
+      </div>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        <!-- Step 1 -->
+        <div class="text-center animate-on-scroll" style="transition-delay:0.05s">
+          <div class="w-14 h-14 rounded-2xl bg-primary-600 text-white flex items-center justify-center text-xl font-bold font-display mx-auto mb-4 shadow-md">1</div>
+          <h4 class="font-semibold text-slate-900 dark:text-white mb-2">Understand Your Needs</h4>
+          <p class="text-slate-500 dark:text-slate-400 text-sm">We deep-dive into your company culture, role requirements, and growth goals.</p>
+        </div>
+        <!-- Step 2 -->
+        <div class="text-center animate-on-scroll" style="transition-delay:0.1s">
+          <div class="w-14 h-14 rounded-2xl bg-primary-600 text-white flex items-center justify-center text-xl font-bold font-display mx-auto mb-4 shadow-md">2</div>
+          <h4 class="font-semibold text-slate-900 dark:text-white mb-2">Source &amp; Screen</h4>
+          <p class="text-slate-500 dark:text-slate-400 text-sm">Multi-channel sourcing with rigorous behavioral and technical screening.</p>
+        </div>
+        <!-- Step 3 -->
+        <div class="text-center animate-on-scroll" style="transition-delay:0.15s">
+          <div class="w-14 h-14 rounded-2xl bg-primary-600 text-white flex items-center justify-center text-xl font-bold font-display mx-auto mb-4 shadow-md">3</div>
+          <h4 class="font-semibold text-slate-900 dark:text-white mb-2">Present &amp; Interview</h4>
+          <p class="text-slate-500 dark:text-slate-400 text-sm">Shortlisted candidates with detailed profiles and coordinated interview scheduling.</p>
+        </div>
+        <!-- Step 4 -->
+        <div class="text-center animate-on-scroll" style="transition-delay:0.2s">
+          <div class="w-14 h-14 rounded-2xl bg-primary-600 text-white flex items-center justify-center text-xl font-bold font-display mx-auto mb-4 shadow-md">4</div>
+          <h4 class="font-semibold text-slate-900 dark:text-white mb-2">Place &amp; Support</h4>
+          <p class="text-slate-500 dark:text-slate-400 text-sm">Offer management, onboarding support, and 90-day post-placement follow-up.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SECTION 4: TEAM
+       ============================================================ -->
+  <section id="team" class="py-24 bg-white dark:bg-slate-900">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+      <!-- Header -->
+      <div class="text-center max-w-2xl mx-auto mb-16 animate-on-scroll">
+        <div class="inline-flex items-center gap-2 px-3 py-1.5 bg-primary-50 dark:bg-primary-900/30 rounded-full text-xs font-semibold text-primary-700 dark:text-primary-300 mb-4 uppercase tracking-wide">
+          <i class="fa-solid fa-users"></i> Our Team
+        </div>
+        <h2 class="font-display text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white mb-4">
+          Meet the People Behind <span class="gradient-text">Yo Jobs</span>
+        </h2>
+        <p class="text-slate-500 dark:text-slate-400 leading-relaxed">
+          A diverse team of HR veterans, tech-savvy recruiters, and people-first professionals dedicated to exceptional results.
+        </p>
+      </div>
+
+      <!-- Team Grid -->
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+
+        <!-- Team Member 1 -->
+        <div class="team-card animate-on-scroll bg-white dark:bg-slate-800 rounded-2xl overflow-hidden border border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-md transition-shadow" style="transition-delay:0.05s">
+          <div class="relative">
+            <div class="w-full h-52 bg-gradient-to-br from-blue-100 to-indigo-100 dark:from-blue-900/40 dark:to-indigo-900/40 flex items-center justify-center">
+              <div class="w-24 h-24 rounded-full bg-primary-600 flex items-center justify-center text-white text-3xl font-display font-bold shadow-lg">AK</div>
+            </div>
+            <!-- Social overlay -->
+            <div class="team-overlay opacity-0 absolute inset-0 bg-primary-600/80 flex items-center justify-center gap-4">
+              <a href="#" class="w-9 h-9 bg-white rounded-full flex items-center justify-center text-primary-600 hover:bg-primary-50 transition-colors">
+                <i class="fa-brands fa-linkedin-in text-sm"></i>
+              </a>
+              <a href="#" class="w-9 h-9 bg-white rounded-full flex items-center justify-center text-primary-600 hover:bg-primary-50 transition-colors">
+                <i class="fa-solid fa-envelope text-sm"></i>
+              </a>
+            </div>
+          </div>
+          <div class="p-5">
+            <h4 class="font-display font-bold text-slate-900 dark:text-white text-lg">Rashid Dar</h4>
+            <p class="text-primary-600 dark:text-primary-400 text-sm font-medium mb-2">CEO &amp; Founder</p>
+            <p class="text-slate-500 dark:text-slate-400 text-xs leading-relaxed">15 years in HR. Former CHRO at two Fortune 500 companies. SHRM-SCP certified.</p>
+          </div>
+        </div>
+
+        <!-- Team Member 2 -->
+        <div class="team-card animate-on-scroll bg-white dark:bg-slate-800 rounded-2xl overflow-hidden border border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-md transition-shadow" style="transition-delay:0.1s">
+          <div class="relative">
+            <div class="w-full h-52 bg-gradient-to-br from-violet-100 to-purple-100 dark:from-violet-900/40 dark:to-purple-900/40 flex items-center justify-center">
+              <div class="w-24 h-24 rounded-full bg-violet-600 flex items-center justify-center text-white text-3xl font-display font-bold shadow-lg">SR</div>
+            </div>
+            <div class="team-overlay opacity-0 absolute inset-0 bg-violet-600/80 flex items-center justify-center gap-4">
+              <a href="#" class="w-9 h-9 bg-white rounded-full flex items-center justify-center text-violet-600 hover:bg-violet-50 transition-colors">
+                <i class="fa-brands fa-linkedin-in text-sm"></i>
+              </a>
+              <a href="#" class="w-9 h-9 bg-white rounded-full flex items-center justify-center text-violet-600 hover:bg-violet-50 transition-colors">
+                <i class="fa-solid fa-envelope text-sm"></i>
+              </a>
+            </div>
+          </div>
+          <div class="p-5">
+            <h4 class="font-display font-bold text-slate-900 dark:text-white text-lg">Sara Raza</h4>
+            <p class="text-primary-600 dark:text-primary-400 text-sm font-medium mb-2">Head of Talent</p>
+            <p class="text-slate-500 dark:text-slate-400 text-xs leading-relaxed">Tech recruitment specialist. Placed 200+ engineers at top Pakistani startups and multinationals.</p>
+          </div>
+        </div>
+
+        <!-- Team Member 3 -->
+        <div class="team-card animate-on-scroll bg-white dark:bg-slate-800 rounded-2xl overflow-hidden border border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-md transition-shadow" style="transition-delay:0.15s">
+          <div class="relative">
+            <div class="w-full h-52 bg-gradient-to-br from-emerald-100 to-teal-100 dark:from-emerald-900/40 dark:to-teal-900/40 flex items-center justify-center">
+              <div class="w-24 h-24 rounded-full bg-emerald-600 flex items-center justify-center text-white text-3xl font-display font-bold shadow-lg">BM</div>
+            </div>
+            <div class="team-overlay opacity-0 absolute inset-0 bg-emerald-600/80 flex items-center justify-center gap-4">
+              <a href="#" class="w-9 h-9 bg-white rounded-full flex items-center justify-center text-emerald-600 hover:bg-emerald-50 transition-colors">
+                <i class="fa-brands fa-linkedin-in text-sm"></i>
+              </a>
+              <a href="#" class="w-9 h-9 bg-white rounded-full flex items-center justify-center text-emerald-600 hover:bg-emerald-50 transition-colors">
+                <i class="fa-solid fa-envelope text-sm"></i>
+              </a>
+            </div>
+          </div>
+          <div class="p-5">
+            <h4 class="font-display font-bold text-slate-900 dark:text-white text-lg">Bilal Mahmood</h4>
+            <p class="text-primary-600 dark:text-primary-400 text-sm font-medium mb-2">HR Consultant</p>
+            <p class="text-slate-500 dark:text-slate-400 text-xs leading-relaxed">Labor law expert and policy architect. Helped 30+ companies build compliant HR frameworks.</p>
+          </div>
+        </div>
+
+        <!-- Team Member 4 -->
+        <div class="team-card animate-on-scroll bg-white dark:bg-slate-800 rounded-2xl overflow-hidden border border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-md transition-shadow" style="transition-delay:0.2s">
+          <div class="relative">
+            <div class="w-full h-52 bg-gradient-to-br from-orange-100 to-amber-100 dark:from-orange-900/40 dark:to-amber-900/40 flex items-center justify-center">
+              <div class="w-24 h-24 rounded-full bg-orange-600 flex items-center justify-center text-white text-3xl font-display font-bold shadow-lg">NA</div>
+            </div>
+            <div class="team-overlay opacity-0 absolute inset-0 bg-orange-600/80 flex items-center justify-center gap-4">
+              <a href="#" class="w-9 h-9 bg-white rounded-full flex items-center justify-center text-orange-600 hover:bg-orange-50 transition-colors">
+                <i class="fa-brands fa-linkedin-in text-sm"></i>
+              </a>
+              <a href="#" class="w-9 h-9 bg-white rounded-full flex items-center justify-center text-orange-600 hover:bg-orange-50 transition-colors">
+                <i class="fa-solid fa-envelope text-sm"></i>
+              </a>
+            </div>
+          </div>
+          <div class="p-5">
+            <h4 class="font-display font-bold text-slate-900 dark:text-white text-lg">Nadia Akhtar</h4>
+            <p class="text-primary-600 dark:text-primary-400 text-sm font-medium mb-2">Client Relations</p>
+            <p class="text-slate-500 dark:text-slate-400 text-xs leading-relaxed">8 years in B2B relations. Manages key accounts across telecom, banking, and FMCG sectors.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SECTION 5: TESTIMONIALS / CLIENTS
+       ============================================================ -->
+  <section id="testimonials" class="py-24 bg-slate-50 dark:bg-slate-800/30">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+      <!-- Header -->
+      <div class="text-center max-w-2xl mx-auto mb-16 animate-on-scroll">
+        <div class="inline-flex items-center gap-2 px-3 py-1.5 bg-primary-50 dark:bg-primary-900/30 rounded-full text-xs font-semibold text-primary-700 dark:text-primary-300 mb-4 uppercase tracking-wide">
+          <i class="fa-solid fa-star"></i> Client Voices
+        </div>
+        <h2 class="font-display text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white mb-4">
+          Don't Take Our Word <span class="gradient-text">For It</span>
+        </h2>
+        <p class="text-slate-500 dark:text-slate-400 leading-relaxed">
+          Here's what the companies we work with have to say about their experience with Yo Jobs.
+        </p>
+      </div>
+
+      <!-- Testimonial Cards -->
+      <div class="grid md:grid-cols-3 gap-6 mb-14">
+
+        <!-- Testimonial 1 -->
+        <div class="testimonial-card animate-on-scroll bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-100 dark:border-slate-700 shadow-sm" style="transition-delay:0.05s">
+          <div class="flex gap-1 text-yellow-400 text-sm mb-4">
+            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+          </div>
+          <blockquote class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed mb-5 italic">
+            "Yo Jobs filled three critical engineering positions in under 3 weeks. The quality of candidates was exceptional — these guys really understand the tech industry."
+          </blockquote>
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-primary-600 flex items-center justify-center text-white font-bold text-sm">ZA</div>
+            <div>
+              <div class="font-semibold text-slate-900 dark:text-white text-sm">Zain Ahmad</div>
+              <div class="text-slate-500 dark:text-slate-400 text-xs">CTO, TechVista Pvt Ltd</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Testimonial 2 -->
+        <div class="testimonial-card animate-on-scroll bg-gradient-to-br from-primary-600 to-primary-800 rounded-2xl p-6 shadow-lg" style="transition-delay:0.1s">
+          <div class="flex gap-1 text-yellow-300 text-sm mb-4">
+            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+          </div>
+          <blockquote class="text-blue-100 text-sm leading-relaxed mb-5 italic">
+            "Their executive search for our new COO was handled with absolute professionalism and confidentiality. The placement has been a game-changer for our company."
+          </blockquote>
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-white/30 flex items-center justify-center text-white font-bold text-sm">FM</div>
+            <div>
+              <div class="font-semibold text-white text-sm">Fatima Malik</div>
+              <div class="text-blue-200 text-xs">CEO, Horizon Logistics</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Testimonial 3 -->
+        <div class="testimonial-card animate-on-scroll bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-100 dark:border-slate-700 shadow-sm" style="transition-delay:0.15s">
+          <div class="flex gap-1 text-yellow-400 text-sm mb-4">
+            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i>
+          </div>
+          <blockquote class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed mb-5 italic">
+            "We outsourced our entire payroll and compliance to Yo Jobs. Zero errors in 18 months and always ahead of deadlines. Highly recommended for growing businesses."
+          </blockquote>
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-emerald-600 flex items-center justify-center text-white font-bold text-sm">HB</div>
+            <div>
+              <div class="font-semibold text-slate-900 dark:text-white text-sm">Hassan Baig</div>
+              <div class="text-slate-500 dark:text-slate-400 text-xs">Director, GreenPak FMCG</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Client Logos -->
+      <div class="animate-on-scroll">
+        <p class="text-center text-xs font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-8">Trusted by Leading Organizations</p>
+        <div class="grid grid-cols-3 sm:grid-cols-6 gap-4">
+          <div class="h-14 bg-white dark:bg-slate-800 rounded-xl border border-slate-100 dark:border-slate-700 flex items-center justify-center text-slate-400 dark:text-slate-500 text-xs font-semibold hover:border-primary-200 dark:hover:border-primary-700 transition-colors">TechVista</div>
+          <div class="h-14 bg-white dark:bg-slate-800 rounded-xl border border-slate-100 dark:border-slate-700 flex items-center justify-center text-slate-400 dark:text-slate-500 text-xs font-semibold hover:border-primary-200 dark:hover:border-primary-700 transition-colors">Horizon Co</div>
+          <div class="h-14 bg-white dark:bg-slate-800 rounded-xl border border-slate-100 dark:border-slate-700 flex items-center justify-center text-slate-400 dark:text-slate-500 text-xs font-semibold hover:border-primary-200 dark:hover:border-primary-700 transition-colors">GreenPak</div>
+          <div class="h-14 bg-white dark:bg-slate-800 rounded-xl border border-slate-100 dark:border-slate-700 flex items-center justify-center text-slate-400 dark:text-slate-500 text-xs font-semibold hover:border-primary-200 dark:hover:border-primary-700 transition-colors">NexaBank</div>
+          <div class="h-14 bg-white dark:bg-slate-800 rounded-xl border border-slate-100 dark:border-slate-700 flex items-center justify-center text-slate-400 dark:text-slate-500 text-xs font-semibold hover:border-primary-200 dark:hover:border-primary-700 transition-colors">ArcTech</div>
+          <div class="h-14 bg-white dark:bg-slate-800 rounded-xl border border-slate-100 dark:border-slate-700 flex items-center justify-center text-slate-400 dark:text-slate-500 text-xs font-semibold hover:border-primary-200 dark:hover:border-primary-700 transition-colors">UrbanLift</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SECTION 6: CONTACT US
+       ============================================================ -->
+  <section id="contact" class="py-24 bg-white dark:bg-slate-900">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+      <div class="grid lg:grid-cols-2 gap-16 items-start">
+
+        <!-- Left: Info -->
+        <div class="animate-on-scroll">
+          <div class="inline-flex items-center gap-2 px-3 py-1.5 bg-primary-50 dark:bg-primary-900/30 rounded-full text-xs font-semibold text-primary-700 dark:text-primary-300 mb-4 uppercase tracking-wide">
+            <i class="fa-solid fa-envelope"></i> Get In Touch
+          </div>
+          <h2 class="font-display text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white mb-4 leading-tight">
+            Let's Start a <span class="gradient-text">Conversation</span>
+          </h2>
+          <p class="text-slate-500 dark:text-slate-400 leading-relaxed mb-8">
+            Whether you're looking to hire top talent, need HR consulting, or want to explore partnership opportunities — we'd love to hear from you.
+          </p>
+
+          <!-- Contact Cards -->
+          <div class="space-y-4 mb-8">
+            <div class="flex items-center gap-4 p-4 bg-slate-50 dark:bg-slate-800 rounded-xl border border-slate-100 dark:border-slate-700">
+              <div class="w-10 h-10 rounded-xl bg-primary-600 flex items-center justify-center text-white flex-shrink-0">
+                <i class="fa-solid fa-location-dot"></i>
+              </div>
+              <div>
+                <div class="text-xs text-slate-500 dark:text-slate-400 font-medium mb-0.5">Office Address</div>
+                <div class="text-sm text-slate-800 dark:text-slate-200 font-medium">2nd Floor, Blue Area, Islamabad, Pakistan</div>
+              </div>
+            </div>
+            <div class="flex items-center gap-4 p-4 bg-slate-50 dark:bg-slate-800 rounded-xl border border-slate-100 dark:border-slate-700">
+              <div class="w-10 h-10 rounded-xl bg-primary-600 flex items-center justify-center text-white flex-shrink-0">
+                <i class="fa-solid fa-phone"></i>
+              </div>
+              <div>
+                <div class="text-xs text-slate-500 dark:text-slate-400 font-medium mb-0.5">Phone / WhatsApp</div>
+                <div class="text-sm text-slate-800 dark:text-slate-200 font-medium">+92 51 234 5678</div>
+              </div>
+            </div>
+            <div class="flex items-center gap-4 p-4 bg-slate-50 dark:bg-slate-800 rounded-xl border border-slate-100 dark:border-slate-700">
+              <div class="w-10 h-10 rounded-xl bg-primary-600 flex items-center justify-center text-white flex-shrink-0">
+                <i class="fa-solid fa-envelope"></i>
+              </div>
+              <div>
+                <div class="text-xs text-slate-500 dark:text-slate-400 font-medium mb-0.5">Email Us</div>
+                <div class="text-sm text-slate-800 dark:text-slate-200 font-medium">hello@yojobs.pk</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Social Links -->
+          <div>
+            <p class="text-xs text-slate-500 dark:text-slate-400 font-medium uppercase tracking-wide mb-3">Follow Us</p>
+            <div class="flex gap-3">
+              <a href="#" class="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center text-slate-500 dark:text-slate-400 hover:bg-primary-600 hover:text-white hover:border-primary-600 transition-all">
+                <i class="fa-brands fa-linkedin-in text-sm"></i>
+              </a>
+              <a href="#" class="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center text-slate-500 dark:text-slate-400 hover:bg-primary-600 hover:text-white hover:border-primary-600 transition-all">
+                <i class="fa-brands fa-twitter text-sm"></i>
+              </a>
+              <a href="#" class="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center text-slate-500 dark:text-slate-400 hover:bg-primary-600 hover:text-white hover:border-primary-600 transition-all">
+                <i class="fa-brands fa-instagram text-sm"></i>
+              </a>
+              <a href="#" class="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center text-slate-500 dark:text-slate-400 hover:bg-primary-600 hover:text-white hover:border-primary-600 transition-all">
+                <i class="fa-brands fa-facebook-f text-sm"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Form -->
+        <div class="animate-on-scroll" style="transition-delay:0.15s">
+          <div class="bg-slate-50 dark:bg-slate-800 rounded-2xl p-8 border border-slate-100 dark:border-slate-700 shadow-sm">
+            <h3 class="font-display text-xl font-bold text-slate-900 dark:text-white mb-6">Send Us a Message</h3>
+
+            <!-- FORM: Replace YOUR_FORMSPREE_ENDPOINT with your Formspree form ID -->
+            <form id="contact-form" action="https://formspree.io/f/YOUR_FORMSPREE_ENDPOINT" method="POST" class="space-y-5">
+
+              <div class="grid sm:grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1.5" for="name">Full Name *</label>
+                  <input type="text" id="name" name="name" required placeholder="Ahmed Khan"
+                    class="form-input w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 text-sm transition-colors focus:border-primary-400 dark:focus:border-primary-500" />
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1.5" for="email">Email Address *</label>
+                  <input type="email" id="email" name="email" required placeholder="ahmed@company.pk"
+                    class="form-input w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 text-sm transition-colors focus:border-primary-400 dark:focus:border-primary-500" />
+                </div>
+              </div>
+
+              <div class="grid sm:grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1.5" for="phone">Phone Number</label>
+                  <input type="tel" id="phone" name="phone" placeholder="+92 300 1234567"
+                    class="form-input w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 text-sm transition-colors focus:border-primary-400 dark:focus:border-primary-500" />
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1.5" for="service">Service Interested In</label>
+                  <select id="service" name="service"
+                    class="form-input w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-white text-sm transition-colors focus:border-primary-400 dark:focus:border-primary-500">
+                    <option value="">Select a service</option>
+                    <option>Talent Acquisition</option>
+                    <option>Executive Search</option>
+                    <option>HR Consulting</option>
+                    <option>Temporary Staffing</option>
+                    <option>Training &amp; Development</option>
+                    <option>Payroll &amp; Compliance</option>
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <label class="block text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1.5" for="company">Company Name</label>
+                <input type="text" id="company" name="company" placeholder="Your Company Pvt Ltd"
+                  class="form-input w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 text-sm transition-colors focus:border-primary-400 dark:focus:border-primary-500" />
+              </div>
+
+              <div>
+                <label class="block text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1.5" for="message">Message *</label>
+                <textarea id="message" name="message" required rows="4" placeholder="Tell us about your hiring needs or HR challenges..."
+                  class="form-input w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 text-sm transition-colors focus:border-primary-400 dark:focus:border-primary-500 resize-none"></textarea>
+              </div>
+
+              <!-- Submit Button -->
+              <button type="submit" id="submit-btn"
+                class="w-full px-6 py-3.5 bg-primary-600 hover:bg-primary-700 text-white font-semibold rounded-xl transition-colors shadow-md flex items-center justify-center gap-2 text-sm">
+                <span id="btn-text">Send Message</span>
+                <i id="btn-icon" class="fa-solid fa-paper-plane"></i>
+              </button>
+
+              <!-- Form feedback -->
+              <div id="form-success" class="hidden px-4 py-3 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 text-green-700 dark:text-green-300 text-sm rounded-xl flex items-center gap-2">
+                <i class="fa-solid fa-circle-check"></i>
+                <span>Message sent! We'll get back to you within 24 hours.</span>
+              </div>
+              <div id="form-error" class="hidden px-4 py-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-300 text-sm rounded-xl flex items-center gap-2">
+                <i class="fa-solid fa-circle-exclamation"></i>
+                <span>Something went wrong. Please try again or email us directly.</span>
+              </div>
+
+            </form>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       FOOTER
+       ============================================================ -->
+  <footer class="bg-slate-900 dark:bg-slate-950 text-slate-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+      <!-- Main Footer -->
+      <div class="py-16 grid sm:grid-cols-2 lg:grid-cols-4 gap-10">
+
+        <!-- Brand -->
+        <div class="lg:col-span-1">
+          <div class="flex items-center gap-2 mb-4">
+            <div class="w-9 h-9 rounded-lg bg-primary-600 flex items-center justify-center">
+              <i class="fa-solid fa-briefcase text-white text-sm"></i>
+            </div>
+            <span class="logo-text text-xl text-white">Yo <span class="text-primary-400">Jobs</span></span>
+          </div>
+          <p class="text-slate-400 text-sm leading-relaxed mb-5">
+            Pakistan's trusted HR and recruitment partner, connecting exceptional talent with forward-thinking organizations since 2016.
+          </p>
+          <div class="flex gap-3">
+            <a href="#" class="w-9 h-9 rounded-lg bg-slate-800 hover:bg-primary-600 flex items-center justify-center text-slate-400 hover:text-white transition-all">
+              <i class="fa-brands fa-linkedin-in text-sm"></i>
+            </a>
+            <a href="#" class="w-9 h-9 rounded-lg bg-slate-800 hover:bg-primary-600 flex items-center justify-center text-slate-400 hover:text-white transition-all">
+              <i class="fa-brands fa-twitter text-sm"></i>
+            </a>
+            <a href="#" class="w-9 h-9 rounded-lg bg-slate-800 hover:bg-primary-600 flex items-center justify-center text-slate-400 hover:text-white transition-all">
+              <i class="fa-brands fa-instagram text-sm"></i>
+            </a>
+            <a href="#" class="w-9 h-9 rounded-lg bg-slate-800 hover:bg-primary-600 flex items-center justify-center text-slate-400 hover:text-white transition-all">
+              <i class="fa-brands fa-facebook-f text-sm"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- Quick Links -->
+        <div>
+          <h5 class="text-white font-semibold text-sm mb-4 uppercase tracking-wide">Quick Links</h5>
+          <ul class="space-y-2.5">
+            <li><a href="#home"         class="text-slate-400 hover:text-primary-400 text-sm transition-colors">Home</a></li>
+            <li><a href="#about"        class="text-slate-400 hover:text-primary-400 text-sm transition-colors">About Us</a></li>
+            <li><a href="#services"     class="text-slate-400 hover:text-primary-400 text-sm transition-colors">Our Services</a></li>
+            <li><a href="#team"         class="text-slate-400 hover:text-primary-400 text-sm transition-colors">Meet the Team</a></li>
+            <li><a href="#testimonials" class="text-slate-400 hover:text-primary-400 text-sm transition-colors">Client Stories</a></li>
+            <li><a href="#contact"      class="text-slate-400 hover:text-primary-400 text-sm transition-colors">Contact Us</a></li>
+          </ul>
+        </div>
+
+        <!-- Services -->
+        <div>
+          <h5 class="text-white font-semibold text-sm mb-4 uppercase tracking-wide">Services</h5>
+          <ul class="space-y-2.5">
+            <li><a href="#services" class="text-slate-400 hover:text-primary-400 text-sm transition-colors">Talent Acquisition</a></li>
+            <li><a href="#services" class="text-slate-400 hover:text-primary-400 text-sm transition-colors">Executive Search</a></li>
+            <li><a href="#services" class="text-slate-400 hover:text-primary-400 text-sm transition-colors">HR Consulting</a></li>
+            <li><a href="#services" class="text-slate-400 hover:text-primary-400 text-sm transition-colors">Temporary Staffing</a></li>
+            <li><a href="#services" class="text-slate-400 hover:text-primary-400 text-sm transition-colors">Training &amp; Development</a></li>
+            <li><a href="#services" class="text-slate-400 hover:text-primary-400 text-sm transition-colors">Payroll &amp; Compliance</a></li>
+          </ul>
+        </div>
+
+        <!-- Contact Info -->
+        <div>
+          <h5 class="text-white font-semibold text-sm mb-4 uppercase tracking-wide">Contact Info</h5>
+          <ul class="space-y-3">
+            <li class="flex items-start gap-3">
+              <i class="fa-solid fa-location-dot text-primary-400 text-sm mt-0.5"></i>
+              <span class="text-slate-400 text-sm">2nd Floor, Blue Area,<br />Islamabad, Pakistan</span>
+            </li>
+            <li class="flex items-center gap-3">
+              <i class="fa-solid fa-phone text-primary-400 text-sm"></i>
+              <span class="text-slate-400 text-sm">+92 51 234 5678</span>
+            </li>
+            <li class="flex items-center gap-3">
+              <i class="fa-solid fa-envelope text-primary-400 text-sm"></i>
+              <span class="text-slate-400 text-sm">hello@yojobs.pk</span>
+            </li>
+            <li class="flex items-center gap-3">
+              <i class="fa-solid fa-clock text-primary-400 text-sm"></i>
+              <span class="text-slate-400 text-sm">Mon–Sat, 9am–6pm PKT</span>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+
+      <!-- Bottom Bar -->
+      <div class="border-t border-slate-800 py-6 flex flex-col sm:flex-row items-center justify-between gap-3">
+        <p class="text-slate-500 text-xs">
+          &copy; <span id="footer-year"></span> Yo Jobs. All rights reserved.
+        </p>
+        <div class="flex gap-6">
+          <a href="#" class="text-slate-500 hover:text-slate-300 text-xs transition-colors">Privacy Policy</a>
+          <a href="#" class="text-slate-500 hover:text-slate-300 text-xs transition-colors">Terms of Service</a>
+          <a href="#" class="text-slate-500 hover:text-slate-300 text-xs transition-colors">Sitemap</a>
+        </div>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- ============================================================
+       BACK TO TOP BUTTON
+       ============================================================ -->
+  <button id="back-to-top" aria-label="Back to top"
+    class="fixed bottom-6 right-6 w-11 h-11 bg-primary-600 hover:bg-primary-700 text-white rounded-xl shadow-lg flex items-center justify-center transition-all opacity-0 pointer-events-none z-40">
+    <i class="fa-solid fa-chevron-up text-sm"></i>
+  </button>
+
+  <!-- ============================================================
+       JAVASCRIPT
+       ============================================================ -->
+  <script>
+    /* ==============================================================
+       1. DARK MODE TOGGLE
+    ============================================================== */
+    const html = document.documentElement;
+    const themeToggle       = document.getElementById('theme-toggle');
+    const themeToggleMobile = document.getElementById('theme-toggle-mobile');
+    const themeIcon         = document.getElementById('theme-icon');
+    const themeIconMobile   = document.getElementById('theme-icon-mobile');
+
+    // Load saved theme from localStorage, default to light
+    const savedTheme = localStorage.getItem('yo-jobs-theme') || 'light';
+    applyTheme(savedTheme);
+
+    function applyTheme(theme) {
+      if (theme === 'dark') {
+        html.classList.add('dark');
+        setIconMoon();
+      } else {
+        html.classList.remove('dark');
+        setIconSun();
+      }
+      localStorage.setItem('yo-jobs-theme', theme);
+    }
+
+    function setIconMoon() {
+      themeIcon.className      = 'fa-solid fa-moon text-sm';
+      themeIconMobile.className = 'fa-solid fa-moon text-sm';
+    }
+    function setIconSun() {
+      themeIcon.className      = 'fa-solid fa-sun text-sm';
+      themeIconMobile.className = 'fa-solid fa-sun text-sm';
+    }
+
+    function toggleTheme() {
+      const isDark = html.classList.contains('dark');
+      applyTheme(isDark ? 'light' : 'dark');
+    }
+
+    themeToggle.addEventListener('click', toggleTheme);
+    themeToggleMobile.addEventListener('click', toggleTheme);
+
+    /* ==============================================================
+       2. MOBILE HAMBURGER MENU
+    ============================================================== */
+    const hamburger  = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    hamburger.addEventListener('click', () => {
+      mobileMenu.classList.toggle('open');
+    });
+
+    function closeMobileMenu() {
+      mobileMenu.classList.remove('open');
+    }
+
+    /* ==============================================================
+       3. NAVBAR SCROLL SHADOW
+    ============================================================== */
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 10) {
+        navbar.classList.add('shadow-md');
+      } else {
+        navbar.classList.remove('shadow-md');
+      }
+    });
+
+    /* ==============================================================
+       4. SCROLL-TRIGGERED ANIMATIONS (Intersection Observer)
+    ============================================================== */
+    const animatedEls = document.querySelectorAll('.animate-on-scroll');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target); // fire only once
+        }
+      });
+    }, { threshold: 0.12 });
+
+    animatedEls.forEach(el => observer.observe(el));
+
+    /* ==============================================================
+       5. ANIMATED STAT COUNTERS
+    ============================================================== */
+    const statEls = document.querySelectorAll('.stat-number[data-target]');
+
+    const statObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const el     = entry.target;
+          const target = parseInt(el.dataset.target, 10);
+          const suffix = target === 98 ? '%' : '+';
+          let current  = 0;
+          const step   = Math.ceil(target / 60);
+          const timer  = setInterval(() => {
+            current += step;
+            if (current >= target) {
+              current = target;
+              clearInterval(timer);
+            }
+            el.textContent = current + suffix;
+          }, 25);
+          statObserver.unobserve(el);
+        }
+      });
+    }, { threshold: 0.5 });
+
+    statEls.forEach(el => statObserver.observe(el));
+
+    /* ==============================================================
+       6. BACK TO TOP BUTTON
+    ============================================================== */
+    const backToTop = document.getElementById('back-to-top');
+
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 400) {
+        backToTop.classList.remove('opacity-0', 'pointer-events-none');
+        backToTop.classList.add('opacity-100');
+      } else {
+        backToTop.classList.add('opacity-0', 'pointer-events-none');
+        backToTop.classList.remove('opacity-100');
+      }
+    });
+
+    backToTop.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    /* ==============================================================
+       7. FOOTER YEAR
+    ============================================================== */
+    document.getElementById('footer-year').textContent = new Date().getFullYear();
+
+    /* ==============================================================
+       8. CONTACT FORM (Formspree)
+       Replace YOUR_FORMSPREE_ENDPOINT in the action attribute above
+    ============================================================== */
+    const contactForm  = document.getElementById('contact-form');
+    const submitBtn    = document.getElementById('submit-btn');
+    const btnText      = document.getElementById('btn-text');
+    const btnIcon      = document.getElementById('btn-icon');
+    const formSuccess  = document.getElementById('form-success');
+    const formError    = document.getElementById('form-error');
+
+    contactForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      // Loading state
+      submitBtn.disabled = true;
+      btnText.textContent = 'Sending...';
+      btnIcon.className   = 'fa-solid fa-spinner fa-spin';
+
+      formSuccess.classList.add('hidden');
+      formError.classList.add('hidden');
+
+      try {
+        const response = await fetch(contactForm.action, {
+          method:  'POST',
+          body:    new FormData(contactForm),
+          headers: { 'Accept': 'application/json' }
+        });
+
+        if (response.ok) {
+          formSuccess.classList.remove('hidden');
+          contactForm.reset();
+        } else {
+          formError.classList.remove('hidden');
+        }
+      } catch (_err) {
+        formError.classList.remove('hidden');
+      } finally {
+        submitBtn.disabled  = false;
+        btnText.textContent = 'Send Message';
+        btnIcon.className   = 'fa-solid fa-paper-plane';
+      }
+    });
+
+    /* ==============================================================
+       9. ACTIVE NAV HIGHLIGHT ON SCROLL (Scrollspy)
+    ============================================================== */
+    const sections  = document.querySelectorAll('section[id]');
+    const navLinks  = document.querySelectorAll('.nav-link');
+
+    window.addEventListener('scroll', () => {
+      let current = '';
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop - 100;
+        if (window.scrollY >= sectionTop) current = section.id;
+      });
+
+      navLinks.forEach(link => {
+        link.classList.remove('text-primary-600', 'dark:text-primary-400');
+        if (link.getAttribute('href') === '#' + current) {
+          link.classList.add('text-primary-600', 'dark:text-primary-400');
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>
