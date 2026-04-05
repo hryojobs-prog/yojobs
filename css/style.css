@@ -183,33 +183,36 @@ body {
 }
 
 /* ----------------------------------------------------------------
-   CLIENT LOGO TICKER / MARQUEE
+   CLIENT LOGO TICKER — transparent SVG logos, no card border/box
+   Just logos floating on the background, sliding smoothly.
    ---------------------------------------------------------------- */
 .clients-track-wrapper {
   overflow: hidden;
   position: relative;
-  /* fade edges */
+  padding: 16px 0;
+  /* Fade left and right edges */
   -webkit-mask-image: linear-gradient(
     to right,
     transparent 0%,
-    black 8%,
-    black 92%,
+    black 12%,
+    black 88%,
     transparent 100%
   );
   mask-image: linear-gradient(
     to right,
     transparent 0%,
-    black 8%,
-    black 92%,
+    black 12%,
+    black 88%,
     transparent 100%
   );
 }
 
 .clients-track {
   display: flex;
-  gap: 20px;
+  align-items: center;
+  gap: 96px;
   width: max-content;
-  animation: ticker 28s linear infinite;
+  animation: ticker 32s linear infinite;
 }
 
 /* Pause on hover */
@@ -217,52 +220,39 @@ body {
   animation-play-state: paused;
 }
 
+/* No box, no border, no background — just the logo */
 .client-logo-card {
   flex-shrink: 0;
-  width: 160px;
-  height: 72px;
-  background: white;
-  border-radius: 12px;
-  border: 1px solid #e2e8f0;
+  width: 240px;
+  height: 120px;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 6px;
-  padding: 8px 14px;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
-  cursor: default;
-}
-.dark .client-logo-card {
-  background: #1e293b;
-  border-color: #334155;
+  background: transparent;
+  border: none;
+  padding: 0;
+  opacity: 1;
+  transition: transform 0.3s ease;
 }
 .client-logo-card:hover {
-  border-color: #93c5fd;
-  box-shadow: 0 4px 16px rgba(59, 130, 246, 0.12);
+  transform: scale(1.08);
 }
 
+/* SVG / transparent-bg logo image */
 .client-logo-img {
-  width: 80px;
-  height: 36px;
+  width: 100%;
+  height: 100%;
   object-fit: contain;
-  filter: grayscale(100%) opacity(0.6);
+  /* No filter — SVGs with transparent bg render as-is */
+  filter: none;
   transition: filter 0.3s ease;
 }
-.client-logo-card:hover .client-logo-img {
-  filter: grayscale(0%) opacity(1);
-}
 
-.client-logo-name {
-  font-size: 11px;
-  font-weight: 600;
-  color: #64748b;
-  letter-spacing: 0.03em;
-  text-transform: uppercase;
-  white-space: nowrap;
+/* Dark mode: if logos are dark-coloured and hard to see,
+   brighten them slightly. Remove this if your logos are light. */
+.dark .client-logo-img {
+  filter: brightness(1.15);
 }
-.dark .client-logo-name { color: #94a3b8; }
-
 @keyframes ticker {
   0%   { transform: translateX(0); }
   100% { transform: translateX(-50%); }
